@@ -1,0 +1,6 @@
+# Ignore editor-specific files
+.vscode/
+*.swp
+
+# Ignore temporary files
+*.tmp
