@@ -46,7 +46,7 @@ fi
 # Print summary of results
 echo -e "\n\033[0;34mSummary of test results:\033[0m"
 echo -e "\033[0;32m\xE2\x9C\x94 Passed tests: $passed"
-echo -e "\033[0;31m\xE2\x9D\x8C Failed tests: $failed"
+echo -e "\033[0;31m\xE2\x9D\x8CFailed tests: $failed"
 
 if [ "$failed" -eq 0 ]; then
     echo -e "\n\033[1;32m\xE2\x9C\x94 All tests passed successfully!\033[0m"
