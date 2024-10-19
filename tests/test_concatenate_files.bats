@@ -1,39 +1,60 @@
 #!/usr/bin/env bats
 
-# Test concatenation of multiple files
-@test "concatenate multiple files" {
-  # Create some sample files
-  echo "Hello" > file1.txt
-  echo "World" > file2.txt
-  echo " Foo" > file3.txt
-
-  # Run the script with multiple file arguments
-  run bash lib/concatenate_files.sh file1.txt file2.txt file3.txt
-
-  # Assert the output is the concatenation of the file contents
-  [ "$output" == "Hello
-World
- Foo" ]  # Adjust this if the script outputs an extra newline
-
-  # Clean up the sample files
-  rm file1.txt file2.txt file3.txt
+# Create a temporary test directory
+setup() {
+    mkdir -p /tmp/concatenate_files_test
+    echo "This is a test file." > /tmp/concatenate_files_test/valid_file.txt
+    echo "Another line in the test file." >> /tmp/concatenate_files_test/valid_file.txt
+    touch /tmp/concatenate_files_test/unreadable_file.txt
+    chmod -r /tmp/concatenate_files_test/unreadable_file.txt  # Make it unreadable
 }
 
-# Test with no file arguments
-@test "no file arguments" {
-  run bash lib/concatenate_files.sh
-
-  # Assert the usage message is printed
-  [[ "$output" == *"Usage: "* ]]
+teardown() {
+    rm -rf /tmp/concatenate_files_test
 }
 
-# Test with a non-readable file
-@test "non-readable file" {
-  touch file4.txt
-  chmod 000 file4.txt
+# Test with no arguments
+@test "No arguments provided" {
+    run bash lib/concatenate_files.sh
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Usage: "* ]]
+}
 
-  run bash lib/concatenate_files.sh file4.txt
+# Test with a valid file
+@test "Valid file provided" {
+    run bash lib/concatenate_files.sh /tmp/concatenate_files_test/valid_file.txt
+    [ "$status" -eq 0 ]
+    [ "$output" = "This is a test file.
+Another line in the test file." ]
+}
 
-  # Assert an error message is printed
-  [[ "$output" == *"Error: file4.txt is not a readable file"* ]]
+# Test with a non-existent file
+@test "Non-existent file provided" {
+    run bash lib/concatenate_files.sh /tmp/concatenate_files_test/non_existent_file.txt
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Error: /tmp/concatenate_files_test/non_existent_file.txt does not exist."* ]]
+}
+
+# Test with an unreadable file
+@test "Unreadable file provided" {
+    run bash lib/concatenate_files.sh /tmp/concatenate_files_test/unreadable_file.txt
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Error: /tmp/concatenate_files_test/unreadable_file.txt is not a readable file."* ]]
+}
+
+# Test with multiple files including valid and invalid ones
+@test "Multiple files with valid and invalid" {
+    run bash lib/concatenate_files.sh /tmp/concatenate_files_test/valid_file.txt /tmp/concatenate_files_test/non_existent_file.txt
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ This\ is\ a\ test\ file. ]]
+    [[ "$output" =~ Another\ line\ in\ the\ test\ file. ]]
+    [[ "$output" =~ Error: ]]
+}
+
+# Test with multiple files where all are invalid
+@test "Multiple invalid files" {
+    run bash lib/concatenate_files.sh /tmp/concatenate_files_test/non_existent_file.txt /tmp/concatenate_files_test/unreadable_file.txt
+    [ "$status" -eq 1 ]
+    [[ "$output" =~ Error:.*does\ not\ exist. ]]
+    [[ "$output" =~ Error:.*is\ not\ a\ readable\ file. ]]
 }

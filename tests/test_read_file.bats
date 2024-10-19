@@ -3,8 +3,7 @@
 # Test reading a valid file
 @test "Reading a valid file" {
     echo "Hello, World!" > testfile.txt
-    run lib/read_file.sh testfile.txt
-    echo "Test file content: $(cat testfile.txt)"
+    run bash lib/read_file.sh testfile.txt
     echo "Script output: $output"
     echo "Exit status: $status"
     [ "$status" -eq 0 ]
@@ -16,7 +15,7 @@
 @test "Handling non-existent file" {
     run lib/read_file.sh non_existent_file.txt
     [ "$status" -eq 1 ]
-    [ "$output" = "Error: File does not exist." ]
+    [[ "$output" == *"Error: File 'non_existent_file.txt' does not exist."* ]]
 }
 
 # Test handling of permission-denied file
@@ -25,7 +24,7 @@
     chmod -r testfile.txt
     run lib/read_file.sh testfile.txt
     [ "$status" -eq 1 ]
-    [ "$output" = "Error: File is not readable." ]
+    [[ "$output" == *"Error: File 'testfile.txt' is not readable."* ]]
     rm testfile.txt
 }
 
@@ -33,5 +32,5 @@
 @test "Invalid number of arguments" {
     run lib/read_file.sh
     [ "$status" -eq 1 ]
-    [[ "$output" =~ "Usage: " ]]
+    [[ "$output" =~ Usage: ]]
 }

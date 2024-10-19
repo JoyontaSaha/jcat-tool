@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Main script: jcat
+
+# Check if no arguments are provided
+if [[ $# -eq 0 ]]; then
+    echo "jcat::Error: No arguments provided."
+    echo "Usage: jcat <file-name> | <file1-name> <file2-name>... | - | -n | -b"
+    exit 1
+fi
+
+# Check if multiple files are provided
+if [[ $# -gt 1 ]]; then
+    # Redirect to lib/concatenate_files.sh with all file names
+    source ./lib/concatenate_files.sh "$@"
+    exit 0
+fi
+
+# Check for options - or -n or -b
+if [[ "$1" == "-" || "$1" == "-n" || "$1" == "-b" ]]; then
+    # Redirect to lib/read_std_input.sh with the option
+    source ./lib/read_std_input.sh "$1"
+    exit 0
+fi
+
+# Pass the file argument directly to read_file.sh
+# read_file.sh will handle error checking
+source ./lib/read_file.sh "$1"
