@@ -1,68 +1,195 @@
-.TH JCAT 1 "October 2024" "1.0" "User Commands"
+.\" Manpage for jcat
+.TH JCAT 1 "October 2024" "Version 1.0.0" "User Commands"
 .SH NAME
-jcat \- concatenate and display files
-
+jcat \- concatenate and print files
 .SH SYNOPSIS
 .B jcat
 [\fIOPTION\fR]... [\fIFILE\fR]...
-
+.BR jcat
+[\fIOPTION\fR] -
 .SH DESCRIPTION
+The
 .B jcat
-reads files sequentially, writing them to standard output. If no \fIFILE\fR is specified, or when \fIFILE\fR is \-, read standard input.
+utility reads files sequentially, writing them to the standard output. The file operands are processed in command-line order. If FILE is a single dash ('-') or absent, 
+.B jcat
+reads from the standard input.
 
 .SH OPTIONS
 .TP
-\fB\-A\fR, \fB\-\-show-all\fR
-equivalent to \-vET
+.B -h, --help
+Display this help message and exit.
 .TP
-\fB\-b\fR, \fB\-\-number-nonblank\fR
-number nonempty output lines, overrides \-n
+.B -v, --version
+Display version information and exit.
 .TP
-\fB\-e\fR
-equivalent to \-vE
+.B -n
+Number all output lines.
 .TP
-\fB\-E\fR, \fB\-\-show-ends\fR
-display \$ at end of each line
+.B -b
+Number nonempty output lines.
 .TP
-\fB\-n\fR, \fB\-\-number\fR
-number all output lines
-.TP
-\fB\-s\fR, \fB\-\-squeeze-blank\fR
-suppress repeated empty output lines
-.TP
-\fB\-T\fR, \fB\-\-show-tabs\fR
-display TAB characters as ^I
-.TP
-\fB\-v\fR, \fB\-\-show-nonprinting\fR
-use ^ and M\- notation, except for LFD and TAB
-.TP
-\fB\-\-help\fR
-display this help and exit
-.TP
-\fB\-\-version\fR
-output version information and exit
+.B -
+Read from standard input.
 
 .SH EXAMPLES
+
 .TP
-.B jcat file.txt
-Display the contents of \fIfile.txt\fR.
+1. Display Version Information:
+.PP
+To display the version of 
+.B jcat:
+.RS
+.EX
+jcat -v
+.EE
+.RE
+.PP
+Output:
+.RS
+.nf
+jcat version 1.0.0
+.fi
+.RE
+
 .TP
-.B jcat \-n file.txt
-Display the contents of \fIfile.txt\fR with line numbers.
+2. Display Help Information:
+.PP
+To show help and usage instructions:
+.RS
+.EX
+jcat -h
+.EE
+.RE
+.PP
+Output:
+.RS
+.nf
+Usage: jcat [OPTION]... [FILE]...
+       jcat [OPTION] -
+.fi
+.RE
+
 .TP
-.B jcat \-s file1.txt file2.txt
-Concatenate \fIfile1.txt\fR and \fIfile2.txt\fR, suppressing repeated empty lines.
+3. Concatenate a Single File:
+.PP
+To read and display the contents of test.txt:
+.RS
+.EX
+jcat test.txt
+.EE
+.RE
+.PP
+Output (sample):
+.RS
+.nf
+"Life isn’t about getting and having, it’s about giving and being."
+"Whatever the mind of man can conceive and believe, it can achieve."
+...
+.fi
+.RE
+
+.TP
+4. Concatenate Multiple Files:
+.PP
+To read and display the contents of both test.txt and test2.txt:
+.RS
+.EX
+jcat test.txt test2.txt
+.EE
+.RE
+.PP
+Output (sample):
+.RS
+.nf
+"Life isn’t about getting and having, it’s about giving and being."
+"Whatever the mind of man can conceive and believe, it can achieve."
+...
+"We become what we think about."
+"The mind is everything. What you think you become."
+...
+.fi
+.RE
+
+.TP
+5. Read from Standard Input:
+.PP
+To read from standard input and print to standard output:
+.RS
+.EX
+head -n1 test.txt | jcat -
+.EE
+.RE
+.PP
+Output:
+.RS
+.nf
+"Life isn’t about getting and having, it’s about giving and being."
+.fi
+.RE
+
+.TP
+6. Number All Output Lines:
+.PP
+To number all output lines from the first three lines of test.txt:
+.RS
+.EX
+head -n3 test.txt | jcat -n
+.EE
+.RE
+.PP
+Output:
+.RS
+.nf
+1  "Life isn’t about getting and having, it’s about giving and being."
+2  "Whatever the mind of man can conceive and believe, it can achieve."
+3  "Strive not to be a success, but rather to be of value."
+.fi
+.RE
+
+.TP
+7. Number Lines Including Blank Lines:
+.PP
+To number lines including blank lines:
+.RS
+.EX
+sed G test.txt | jcat -n | head -n4
+.EE
+.RE
+.PP
+Output:
+.RS
+.nf
+1  "Life isn’t about getting and having, it’s about giving and being."
+2
+3  "Whatever the mind of man can conceive and believe, it can achieve."
+4
+.fi
+.RE
+
+.TP
+8. Number Lines Excluding Blank Lines:
+.PP
+To number lines excluding blank lines:
+.RS
+.EX
+sed G test.txt | jcat -b | head -n5
+.EE
+.RE
+.PP
+Output:
+.RS
+.nf
+ 1  "Life isn’t about getting and having, it’s about giving and being."
+ 2  "Whatever the mind of man can conceive and believe, it can achieve."
+ 3  "Strive not to be a success, but rather to be of value."
+.fi
+.RE
 
 .SH AUTHOR
 Written by [Joyonta Saha].
 
 .SH REPORTING BUGS
-Report bugs to <joyontasaha95@gmail.com>.
+Report bugs to: Joyontasaha95@gmail.com
 
 .SH COPYRIGHT
-Copyright © 2024 [Joyonta Saha].
-This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
-
-.SH SEE ALSO
-.BR cat (1)
-
+Copyright (C) 2024 [Joyonta Saha]. License Free for all.

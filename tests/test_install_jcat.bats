@@ -12,9 +12,9 @@ setup() {
     mkdir -p "$BIN_DIR" "$LIB_DIR" "$MAN_DIR"
 
     # Mock jcat files for testing
-    touch "$BIN_DIR/jcat"       # Mock jcat executable
-    touch "$LIB_DIR/read_file.sh"  # Mock read_file.sh
-    touch "$MAN_DIR/jcat.1"     # Mock jcat man page
+    touch "$BIN_DIR/jcat"               # Mock jcat executable
+    touch "$LIB_DIR/read_file.sh"       # Mock read_file.sh
+    touch "$MAN_DIR/jcat.1"             # Mock jcat man page
 }
 
 teardown() {
@@ -26,11 +26,9 @@ teardown() {
     # Run the installation script with the test directory as argument and "y" as input
     run bash install_jcat.sh "$TEST_DIR" <<< "y"
 
-    # Check if the jcat executable was copied to the mock bin directory
+    # Verify that the jcat executable and directories are created
     [ -f "$TEST_DIR/bin/jcat" ]
-    # Check if the jcat library directory was created
     [ -d "$TEST_DIR/lib/jcat" ]
-    # Check if the jcat man page was created
     [ -f "$TEST_DIR/share/man/man1/jcat.1" ]
 }
 
@@ -40,8 +38,14 @@ teardown() {
 
     # Ensure jcat is marked as executable in the mock bin directory
     chmod +x "$TEST_DIR/bin/jcat"  # Set the mock executable permission
+
+    # Check if the jcat executable is now executable
+    echo "Checking permissions for $TEST_DIR/bin/jcat"
+    ls -l "$TEST_DIR/bin/jcat"  # Add this line to check permissions in the test
+
     [[ -x "$TEST_DIR/bin/jcat" ]]   # Check if jcat is executable
 }
+
 
 @test "Abort installation on 'n'" {
     # Run the installation script with the test directory as argument and "n" as input

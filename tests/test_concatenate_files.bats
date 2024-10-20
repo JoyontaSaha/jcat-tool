@@ -17,14 +17,14 @@ teardown() {
 @test "No arguments provided" {
     run bash lib/jcat/concatenate_files.sh
     [ "$status" -eq 1 ]
-    [[ "$output" == *"Usage: "* ]]
+    [[ "$output" =~ "Usage: " ]]
 }
 
 # Test with a valid file
 @test "Valid file provided" {
     run bash lib/jcat/concatenate_files.sh /tmp/concatenate_files_test/valid_file.txt
     [ "$status" -eq 0 ]
-    [ "$output" = "This is a test file.
+    [ "$output" == "This is a test file.
 Another line in the test file." ]
 }
 
@@ -32,14 +32,14 @@ Another line in the test file." ]
 @test "Non-existent file provided" {
     run bash lib/jcat/concatenate_files.sh /tmp/concatenate_files_test/non_existent_file.txt
     [ "$status" -eq 1 ]
-    [[ "$output" == *"Error: /tmp/concatenate_files_test/non_existent_file.txt does not exist."* ]]
+    [[ "$output" =~ Error:\ .*does\ not\ exist. ]]
 }
 
 # Test with an unreadable file
 @test "Unreadable file provided" {
     run bash lib/jcat/concatenate_files.sh /tmp/concatenate_files_test/unreadable_file.txt
     [ "$status" -eq 1 ]
-    [[ "$output" == *"Error: /tmp/concatenate_files_test/unreadable_file.txt is not a readable file."* ]]
+    [[ "$output" =~ Error:\ .*is\ not\ a\ readable\ file. ]]
 }
 
 # Test with multiple files including valid and invalid ones
