@@ -8,6 +8,8 @@ helper_tests=(
     "./tests/test_read_file.bats"
     "./tests/test_read_std_input.bats"
     "./tests/test_concatenate_files.bats"
+    "./tests/test_install_jcat.bats"
+    "./tests/test_uninstall_jcat.bats"
 )
 
 # Initialize counters for passed and failed tests

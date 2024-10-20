@@ -12,17 +12,18 @@ fi
 # Check if multiple files are provided
 if [[ $# -gt 1 ]]; then
     # Redirect to lib/concatenate_files.sh with all file names
-    source ./lib/concatenate_files.sh "$@"
+    source "$(dirname "$(readlink -f "$0")")/../lib/jcat/concatenate_files.sh" "$@"
     exit 0
 fi
 
 # Check for options - or -n or -b
 if [[ "$1" == "-" || "$1" == "-n" || "$1" == "-b" ]]; then
     # Redirect to lib/read_std_input.sh with the option
-    source ./lib/read_std_input.sh "$1"
+    source "$(dirname "$(readlink -f "$0")")/../lib/jcat/read_std_input.sh" "$1"
     exit 0
 fi
 
 # Pass the file argument directly to read_file.sh
 # read_file.sh will handle error checking
-source ./lib/read_file.sh "$1"
+source "$(dirname "$(readlink -f "$0")")/../lib/jcat/read_file.sh" "$1"
+

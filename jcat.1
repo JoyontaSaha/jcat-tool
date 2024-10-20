@@ -1,0 +1,68 @@
+.TH JCAT 1 "October 2024" "1.0" "User Commands"
+.SH NAME
+jcat \- concatenate and display files
+
+.SH SYNOPSIS
+.B jcat
+[\fIOPTION\fR]... [\fIFILE\fR]...
+
+.SH DESCRIPTION
+.B jcat
+reads files sequentially, writing them to standard output. If no \fIFILE\fR is specified, or when \fIFILE\fR is \-, read standard input.
+
+.SH OPTIONS
+.TP
+\fB\-A\fR, \fB\-\-show-all\fR
+equivalent to \-vET
+.TP
+\fB\-b\fR, \fB\-\-number-nonblank\fR
+number nonempty output lines, overrides \-n
+.TP
+\fB\-e\fR
+equivalent to \-vE
+.TP
+\fB\-E\fR, \fB\-\-show-ends\fR
+display \$ at end of each line
+.TP
+\fB\-n\fR, \fB\-\-number\fR
+number all output lines
+.TP
+\fB\-s\fR, \fB\-\-squeeze-blank\fR
+suppress repeated empty output lines
+.TP
+\fB\-T\fR, \fB\-\-show-tabs\fR
+display TAB characters as ^I
+.TP
+\fB\-v\fR, \fB\-\-show-nonprinting\fR
+use ^ and M\- notation, except for LFD and TAB
+.TP
+\fB\-\-help\fR
+display this help and exit
+.TP
+\fB\-\-version\fR
+output version information and exit
+
+.SH EXAMPLES
+.TP
+.B jcat file.txt
+Display the contents of \fIfile.txt\fR.
+.TP
+.B jcat \-n file.txt
+Display the contents of \fIfile.txt\fR with line numbers.
+.TP
+.B jcat \-s file1.txt file2.txt
+Concatenate \fIfile1.txt\fR and \fIfile2.txt\fR, suppressing repeated empty lines.
+
+.SH AUTHOR
+Written by [Joyonta Saha].
+
+.SH REPORTING BUGS
+Report bugs to <joyontasaha95@gmail.com>.
+
+.SH COPYRIGHT
+Copyright © 2024 [Joyonta Saha].
+This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.
+
+.SH SEE ALSO
+.BR cat (1)
+
