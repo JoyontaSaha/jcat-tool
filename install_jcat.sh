@@ -12,6 +12,9 @@ if [[ -n "$1" ]]; then
     BIN_DIR="$BASE_DIR/bin"
     LIB_DIR="$BASE_DIR/lib/$JCAT_DIR"
     MAN_DIR="$BASE_DIR/share/man/man1"
+    # MKDIR_LIB='mkdir -p'
+#else
+    # MKDIR_LIB='mkdir'
 fi
 
 # Function to display error messages and exit
@@ -26,24 +29,37 @@ choice="${choice,,}"  # Convert choice to lowercase
 
 case "$choice" in
     "y")
+        
+        # Step 0: Copy bin/jcat script to BIN_DIR and set executable permissions
+        if ! sudo cp "bin/jcat" "$BIN_DIR/"; then
+            error_exit "Error: jcat not found or failed to copy."
+        fi
+        echo "Copied jcat to $BIN_DIR/"
+
+        # Check file permissions before changing
+        echo "Before chmod: $(ls -l "$BIN_DIR/jcat")"
+
+        sudo chmod +x "$BIN_DIR/jcat"
+        echo "Set executable permission for $BIN_DIR/jcat"
+        
         # Step 1: Ensure the library directory exists
         sudo mkdir -p "$LIB_DIR" || error_exit "Failed to create $LIB_DIR"
 
-        # Step 2: Copy scripts and set executable permissions
-        for script in jcat lib/"$JCAT_DIR"/read_file.sh lib/"$JCAT_DIR"/read_std_input.sh lib/"$JCAT_DIR"/concatenate_files.sh; do
-            if ! sudo cp "$script" "$BIN_DIR/"; then
-                error_exit "Error: $script not found or failed to copy."
+        # Step 2: Copy all files from lib/jcat to LIB_DIR and set executable permissions
+        for file in lib/"$JCAT_DIR"/*; do
+            if ! sudo cp "$file" "$LIB_DIR/"; then
+                error_exit "Error: $file not found or failed to copy."
             fi
-            echo "Copied $script to $BIN_DIR/"
+            echo "Copied $file to $LIB_DIR/"
 
             # Check file permissions before changing
-            echo "Before chmod: $(ls -l "$BIN_DIR/$(basename "$script")")"
+            echo "Before chmod: $(ls -l "$LIB_DIR/$(basename "$file")")"
 
-            sudo chmod +x "$BIN_DIR/$(basename "$script")"
-            echo "Set executable permission for $BIN_DIR/$(basename "$script")"
+            sudo chmod +x "$LIB_DIR/$(basename "$file")"
+            echo "Set executable permission for $LIB_DIR/$(basename "$file")"
 
             # Check file permissions after changing
-            echo "After chmod: $(ls -l "$BIN_DIR/$(basename "$script")")"
+            echo "After chmod: $(ls -l "$LIB_DIR/$(basename "$file")")"
         done
 
         # Step 6: Copy jcat.1 to the man directory

@@ -33,27 +33,37 @@ To install `jcat` from source, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/jcat.git
+   $ git clone https://github.com/yourusername/jcat.git
    cd jcat
    ```
-
-2. Run the installation script:
+2. Grant executable permision:
    ```bash
-   bash install_jcat.sh
+   $ sudo chmod +x install_jcat.sh uninstall_jcat.sh
+
+   ```
+
+3. Run the installation script:
+   ```bash
+   $ sudo bash install_jcat.sh
    ```
 
 ## Downloading Test Files
 
 To test `jcat`, you can download sample quote files from the following URLs:
 
+0. **Install jq**:
+   ```bash
+   $ sudo apt install jq
+   ```
+
 1. **First Test File**:
    ```bash
-   curl "https://dummyjson.com/quotes?limit=10" | jq '.quotes | .[] | .quote' > test.txt
+   $ curl "https://dummyjson.com/quotes?limit=10" | jq '.quotes | .[] | .quote' > test.txt
    ```
 
 2. **Second Test File**:
    ```bash
-   curl "https://dummyjson.com/quotes?limit=10&skip=10" | jq '.quotes | .[] | .quote' > test2.txt
+   $ curl "https://dummyjson.com/quotes?limit=10&skip=10" | jq '.quotes | .[] | .quote' > test2.txt
    ```
 
 After downloading, you should have two files: `test.txt` and `test2.txt`, containing quotes.
@@ -166,7 +176,7 @@ $ sed G test.txt | jcat -b | head -n5
 
 Run the uninstallation script from the project's root directory:
 ```bash
-   bash uninstall_jcat.sh.sh
+   sudo bash uninstall_jcat.sh.sh
 ```
 
 ## Contributing
