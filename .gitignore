@@ -4,3 +4,10 @@
 
 # Ignore temporary files
 *.tmp
+
+# Ignore test files 
+tests/test_files
+
+# Ignore automate testing libary bats dependencies
+tests/bats
+tests/test_helper

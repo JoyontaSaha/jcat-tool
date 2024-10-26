@@ -1,12 +1,7 @@
-Here's the updated `README.md` that includes instructions on downloading the test files, using them as test cases, and displaying demo outputs for each usage.
-
-### Updated README.md
-
-
-# jcat
-
+# jcat <small><small><small>[own version of the Unix Command line tool cat]</small></small></small>
 `jcat` is a simple command-line utility that concatenates files and prints the result to the standard output. It allows for various options such as line numbering and reading from standard input.
 
+*Special thanks to [Coding Challenges](https://codingchallenges.fyi/challenges/challenge-cat/).*
 # Table of Contents
 - [Features](#features)
 - [Installation](#installation)
@@ -28,23 +23,28 @@ Here's the updated `README.md` that includes instructions on downloading the tes
 
 ## Installation
 
+### Following guide is for  Unix-like systems (Linux, macOS, etc.)
+
 ### From Source
 To install `jcat` from source, follow these steps:
 
 1. Clone the repository:
    ```bash
-   $ git clone https://github.com/yourusername/jcat.git
-   cd jcat
+    git clone https://github.com/JoyontaSaha/jcat-tool.git
    ```
-2. Grant executable permision:
+2.  Move to the project's root directory:
+      ```bash
+       cd jcat-tool
+      ```
+3. Grant executable permision:
    ```bash
-   $ sudo chmod +x install_jcat.sh uninstall_jcat.sh
+    sudo chmod +x install_jcat.sh uninstall_jcat.sh
 
    ```
 
-3. Run the installation script:
+4. Run the installation script:
    ```bash
-   $ sudo bash install_jcat.sh
+    sudo bash install_jcat.sh
    ```
 
 ## Downloading Test Files
@@ -53,17 +53,17 @@ To test `jcat`, you can download sample quote files from the following URLs:
 
 0. **Install jq**:
    ```bash
-   $ sudo apt install jq
+    sudo apt install jq
    ```
 
 1. **First Test File**:
    ```bash
-   $ curl "https://dummyjson.com/quotes?limit=10" | jq '.quotes | .[] | .quote' > test.txt
+    curl "https://dummyjson.com/quotes?limit=10" | jq '.quotes | .[] | .quote' > test.txt
    ```
 
 2. **Second Test File**:
    ```bash
-   $ curl "https://dummyjson.com/quotes?limit=10&skip=10" | jq '.quotes | .[] | .quote' > test2.txt
+    curl "https://dummyjson.com/quotes?limit=10&skip=10" | jq '.quotes | .[] | .quote' > test2.txt
    ```
 
 After downloading, you should have two files: `test.txt` and `test2.txt`, containing quotes.
@@ -78,7 +78,7 @@ jcat [options] [files...]
 ### 1. Display Version Information
 To display the version of `jcat`:
 ```bash
-$ jcat -v
+ jcat -v
 ```
 **Output**:
 ```
@@ -88,7 +88,7 @@ jcat version 1.0.0
 ### 2. Display Help Information
 To show help and usage instructions:
 ```bash
-$ jcat -h
+ jcat -h
 ```
 **Output**:
 ```
@@ -99,7 +99,7 @@ Usage: jcat [OPTION]... [FILE]...
 ### 3. Concatenate a Single File
 To read and display the contents of `test.txt`:
 ```bash
-$ jcat test.txt
+ jcat test.txt
 ```
 **Output** (sample quotes):
 ```
@@ -112,7 +112,7 @@ $ jcat test.txt
 ### 4. Concatenate Multiple Files
 To read and display the contents of both `test.txt` and `test2.txt`:
 ```bash
-$ jcat test.txt test2.txt
+ jcat test.txt test2.txt
 ```
 **Output** (sample quotes from both files):
 ```
@@ -127,7 +127,7 @@ $ jcat test.txt test2.txt
 ### 5. Read from Standard Input
 To read from standard input and print to standard output:
 ```bash
-$ head -n1 test.txt | jcat -
+ head -n1 test.txt | jcat -
 ```
 **Output**:
 ```
@@ -137,7 +137,7 @@ $ head -n1 test.txt | jcat -
 ### 6. Number All Output Lines
 To number all output lines from the first three lines of `test.txt`:
 ```bash
-$ head -n3 test.txt | jcat -n
+ head -n3 test.txt | jcat -n
 ```
 **Output**:
 ```
@@ -149,7 +149,7 @@ $ head -n3 test.txt | jcat -n
 ### 7. Number Lines Including Blank Lines
 To number lines including blank lines:
 ```bash
-$ sed G test.txt | jcat -n | head -n4
+ sed G test.txt | jcat -n | head -n4
 ```
 **Output**:
 ```
@@ -162,7 +162,7 @@ $ sed G test.txt | jcat -n | head -n4
 ### 8. Number Lines Excluding Blank Lines
 To number lines excluding blank lines:
 ```bash
-$ sed G test.txt | jcat -b | head -n5
+ sed G test.txt | jcat -b | head -n5
 ```
 **Output**:
 ```
@@ -176,7 +176,7 @@ $ sed G test.txt | jcat -b | head -n5
 
 Run the uninstallation script from the project's root directory:
 ```bash
-   sudo bash uninstall_jcat.sh.sh
+ sudo bash uninstall_jcat.sh.sh
 ```
 
 ## Contributing
@@ -184,4 +184,3 @@ Contributions are welcome!
 
 ## License
 Free for all.
-
