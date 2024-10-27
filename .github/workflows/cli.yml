@@ -18,6 +18,7 @@ jobs:
 
     - name: Install Bats
       run: |
+        rm -rf tests/bats tests/test_helper/bats-support tests/test_helper/bats-assert
         git clone https://github.com/bats-core/bats-core.git tests/bats
         git clone https://github.com/bats-core/bats-support.git tests/test_helper/bats-support
         git clone https://github.com/bats-core/bats-assert.git tests/test_helper/bats-assert
