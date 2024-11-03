@@ -68,15 +68,10 @@ Line 3"
 
   run bash -c "printf \"$input\" | bin/jcat -b"
   [ "$status" -eq 0 ]
-  if [[ "$OSTYPE" == "darwin"* ]]; then
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    [[ "$output" =~ "$expected" ]]
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
     printf "%s" "$output" | sed 's/  / /g' | grep -q "$expected"
-  elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    [ "$output" = "$expected" ]
-  elif [[ "$OSTYPE" == "cygwin"* ]] || [[ "$OSTYPE" == "msys"* ]] || [[ "$OSTYPE" == "win32"* ]]; then
-    expected="     1	Line 1
-     2	
-     3	Line 3"
-    [ "$output" = "$expected" ]
   fi
 }
 

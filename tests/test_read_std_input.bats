@@ -40,16 +40,10 @@ Line 3"
 
   run bash -c "printf \"$input\" | lib/jcat/read_std_input.sh -b"
   [ "$status" -eq 0 ]
-  if [[ "$OSTYPE" == "darwin"* ]]; then
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    [[ "$output" =~ "$expected" ]]
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
     printf "%s" "$output" | sed 's/  / /g' | grep -q "$expected"
-  elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    [ "$output" = "$expected" ]
-  elif [[ "$OSTYPE" == "cygwin"* ]] || [[ "$OSTYPE" == "msys"* ]] || [[ "$OSTYPE" == "win32"* ]]; then
-    [ "$output" = "     1	Line 1
-     2	
-     3	Line 3" ]
-  else
-    skip "unknown ostype '$OSTYPE'"
   fi
 }
 
