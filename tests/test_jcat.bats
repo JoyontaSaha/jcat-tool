@@ -67,12 +67,10 @@ Line 3"
      2	Line 3"
 
   run bash -c "printf \"$input\" | bin/jcat -b"
+  printf "Output:\n%s\n" "$output"
+  printf "Expected:\n%s\n" "$expected"
   [ "$status" -eq 0 ]
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    [[ "$output" =~ "$expected" ]]
-  elif [[ "$OSTYPE" == "darwin"* ]]; then
-    printf "%s" "$output" | sed 's/  / /g' | grep -q "$expected"
-  fi
+  [ "$output" = "$expected" ]
 }
 
 @test "Non-existent file" {
