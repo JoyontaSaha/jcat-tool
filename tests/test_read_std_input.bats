@@ -40,7 +40,7 @@ Line 3"
 
   run bash -c "printf \"$input\" | lib/jcat/read_std_input.sh -b"
   [ "$status" -eq 0 ]
-  [ "$output" = "$expected" ]
+  [[ "$output" == "$expected" ]]
 }
 
 # Test usage message
