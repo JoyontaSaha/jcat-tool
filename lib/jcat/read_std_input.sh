@@ -32,11 +32,7 @@ case "$1" in
         ;;
     "-b")
         # Read from standard input with line numbering on non-blank lines
-        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-            nl -bt
-        else
-            awk 'NF { printf "%6d\t%s\n", ++count, $0; next } 1'
-        fi
+        nl -bt
         ;;
     *)
         display_usage
