@@ -67,8 +67,6 @@ Line 3"
      2	Line 3"
 
   run bash -c "printf \"$input\" | bin/jcat -b"
-  printf "Output:\n%s\n" "$output"
-  printf "Expected:\n%s\n" "$expected"
   [ "$status" -eq 0 ]
   if [[ "$OSTYPE" == "darwin"* ]]; then
     [[ "$output" == *"2	Line 3"* ]] # for mac os

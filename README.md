@@ -30,55 +30,60 @@ To install `jcat` from source, follow these steps:
 
 1. Clone the repository:
    ```bash
-    git clone https://github.com/JoyontaSaha/jcat-tool.git
+   git clone https://github.com/JoyontaSaha/jcat-tool.git
    ```
 2.  Move to the project's root directory:
       ```bash
-       cd jcat-tool
+      cd jcat-tool
       ```
 3. Grant executable permision:
    ```bash
-    sudo chmod +x install_jcat.sh uninstall_jcat.sh
+   sudo chmod +x install_jcat.sh uninstall_jcat.sh
 
    ```
 
 4. Run the installation script:
    ```bash
-    sudo bash install_jcat.sh
+   sudo bash install_jcat.sh
    ```
 
-## Downloading Test Files
-
-To test `jcat`, you can download sample quote files from the following URLs:
-
-0. **Install jq**:
-   ```bash
-    sudo apt install jq
-   ```
-
-1. **First Test File**:
-   ```bash
-    curl "https://dummyjson.com/quotes?limit=10" | jq '.quotes | .[] | .quote' > test.txt
-   ```
-
-2. **Second Test File**:
-   ```bash
-    curl "https://dummyjson.com/quotes?limit=10&skip=10" | jq '.quotes | .[] | .quote' > test2.txt
-   ```
-
-After downloading, you should have two files: `test.txt` and `test2.txt`, containing quotes.
+## Man Page
+```bash
+man jcat
+```
 
 ## Usage
 ```bash
 jcat [options] [files...]
 ```
 
+## Download Sample Test Input Files
+
+To test `jcat`, you can download sample quote files from the following URLs:
+
+0. **Install jq**:
+   ```bash
+   sudo apt install jq
+   ```
+
+1. **First Test File**:
+   ```bash
+   curl "https://dummyjson.com/quotes?limit=10" | jq '.quotes | .[] | .quote' > test.txt
+   ```
+
+2. **Second Test File**:
+   ```bash
+   curl "https://dummyjson.com/quotes?limit=10&skip=10" | jq '.quotes | .[] | .quote' > test2.txt
+   ```
+
+After downloading, you should have two files: `test.txt` and `test2.txt`, containing quotes.
+
 ## Examples
 
 ### 1. Display Version Information
 To display the version of `jcat`:
 ```bash
- jcat -v
+jcat -v
 ```
 **Output**:
 ```
@@ -88,7 +93,7 @@ jcat version 1.0.0
 ### 2. Display Help Information
 To show help and usage instructions:
 ```bash
- jcat -h
+jcat -h
 ```
 **Output**:
 ```
@@ -99,7 +104,7 @@ Usage: jcat [OPTION]... [FILE]...
 ### 3. Concatenate a Single File
 To read and display the contents of `test.txt`:
 ```bash
- jcat test.txt
+jcat test.txt
 ```
 **Output** (sample quotes):
 ```
@@ -112,7 +117,7 @@ To read and display the contents of `test.txt`:
 ### 4. Concatenate Multiple Files
 To read and display the contents of both `test.txt` and `test2.txt`:
 ```bash
- jcat test.txt test2.txt
+jcat test.txt test2.txt
 ```
 **Output** (sample quotes from both files):
 ```
@@ -127,7 +132,7 @@ To read and display the contents of both `test.txt` and `test2.txt`:
 ### 5. Read from Standard Input
 To read from standard input and print to standard output:
 ```bash
- head -n1 test.txt | jcat -
+head -n1 test.txt | jcat -
 ```
 **Output**:
 ```
@@ -137,7 +142,7 @@ To read from standard input and print to standard output:
 ### 6. Number All Output Lines
 To number all output lines from the first three lines of `test.txt`:
 ```bash
- head -n3 test.txt | jcat -n
+head -n3 test.txt | jcat -n
 ```
 **Output**:
 ```
@@ -149,7 +154,7 @@ To number all output lines from the first three lines of `test.txt`:
 ### 7. Number Lines Including Blank Lines
 To number lines including blank lines:
 ```bash
- sed G test.txt | jcat -n | head -n4
+sed G test.txt | jcat -n | head -n4
 ```
 **Output**:
 ```
@@ -162,7 +167,7 @@ To number lines including blank lines:
 ### 8. Number Lines Excluding Blank Lines
 To number lines excluding blank lines:
 ```bash
- sed G test.txt | jcat -b | head -n5
+sed G test.txt | jcat -b | head -n5
 ```
 **Output**:
 ```
@@ -176,10 +181,57 @@ To number lines excluding blank lines:
 
 Run the uninstallation script from the project's root directory:
 ```bash
- sudo bash uninstall_jcat.sh.sh
+sudo bash uninstall_jcat.sh
+```
+## Automated Testing
+
+To ensure `jcat` works correctly, you can run automated tests using Bats (Bash Automated Testing System).
+
+### Setup Bats
+
+Projects's root directory clone the Bats repository into your tests directory:
+
+```bash
+git clone https://github.com/bats-core/bats-core.git tests/bats
 ```
 
-## Contributing
+### End-to-End Tests
+
+Run all end-to-end tests with the following script:
+
+```bash
+./tests/run_tests.sh
+```
+
+### Individual Script Tests
+
+Execute tests for individual scripts using Bats:
+
+```bash
+bash ./tests/bats/bin/bats ./tests/test_jcat.bats
+```
+
+```bash
+bash ./tests/bats/bin/bats ./tests/test_read_file.bats
+```
+
+```bash
+bash ./tests/bats/bin/bats ./tests/test_read_std_input.bats
+```
+
+```bash
+bash ./tests/bats/bin/bats ./tests/test_concatenate_files.bats
+```
+
+```bash
+bash ./tests/bats/bin/bats ./tests/test_install_jcat.bats
+```
+
+```bash
+bash ./tests/bats/bin/bats ./tests/test_uninstall_jcat.bats
+```
+
+## Contribute
 Contributions are welcome!
 
 ## License

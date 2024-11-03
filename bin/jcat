@@ -38,6 +38,7 @@ Examples:
   jcat f1 f2     Output f1's contents, then f2's contents
   jcat -n        Number all output lines from stdin
   jcat -b        Number non-blank output lines from stdin
+  jcat -        Read from standard input
 
 Report bugs to: [Joyontasaha95@gmail.com]"
 
