@@ -42,7 +42,11 @@ Line 3"
   printf "Output:\n%s\n" "$output"
   printf "Expected:\n%s\n" "$expected"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"$expected"* ]]
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    [[ "$output" == *"2	Line 3"* ]] # for mac os
+  else
+    [ "$output" = "$expected" ] # for linux
+  fi
 }
 
 # Test usage message
