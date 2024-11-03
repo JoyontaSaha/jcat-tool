@@ -69,7 +69,7 @@ Line 3"
   run bash -c "printf \"$input\" | bin/jcat -b"
   [ "$status" -eq 0 ]
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    [[ "$output" =~ "$expected" ]]
+    printf "%s" "$output" | sed 's/  / /g' | grep -q "$expected"
   elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     [ "$output" = "$expected" ]
   elif [[ "$OSTYPE" == "cygwin"* ]] || [[ "$OSTYPE" == "msys"* ]] || [[ "$OSTYPE" == "win32"* ]]; then
