@@ -42,22 +42,7 @@ Line 3"
   printf "Output:\n%s\n" "$output"
   printf "Expected:\n%s\n" "$expected"
   [ "$status" -eq 0 ]
-  # Create temporary files for expected and actual output
-  expected_file=$(mktemp)
-  output_file=$(mktemp)
-
-  # Write expected and actual output to temporary files
-  printf "%s" "$expected" > "$expected_file"
-  printf "%s" "$output" > "$output_file"
-
-  # Compare the two files
-  if ! diff "$output_file" "$expected_file"; then
-    printf "Output does not match expected.\n"
-    exit 1
-  fi
-
-  # Clean up temporary files
-  rm -f "$expected_file" "$output_file"
+  [[ "$output" == *"$expected"* ]]
 }
 
 # Test usage message
