@@ -3,8 +3,8 @@
 # Create a temporary test directory
 setup() {
     mkdir -p /tmp/concatenate_files_test
-    echo "This is a test file." > /tmp/concatenate_files_test/valid_file.txt
-    echo "Another line in the test file." >> /tmp/concatenate_files_test/valid_file.txt
+    printf "This is a test file.\n" > /tmp/concatenate_files_test/valid_file.txt
+    printf "Another line in the test file.\n" >> /tmp/concatenate_files_test/valid_file.txt
     touch /tmp/concatenate_files_test/unreadable_file.txt
     chmod -r /tmp/concatenate_files_test/unreadable_file.txt  # Make it unreadable
 }
@@ -58,3 +58,4 @@ Another line in the test file." ]
     [[ "$output" =~ Error:.*does\ not\ exist. ]]
     [[ "$output" =~ Error:.*is\ not\ a\ readable\ file. ]]
 }
+

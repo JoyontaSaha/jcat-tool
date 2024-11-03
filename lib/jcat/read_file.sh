@@ -2,7 +2,7 @@
 
 # Function to print error messages and exit with status
 print_error() {
-    echo "jcat::Error: $1"
+    printf "jcat::Error: %s\n" "$1"
     exit 1
 }
 
@@ -26,7 +26,7 @@ fi
 
 # Read and print the file line by line
 while IFS= read -r line; do
-    echo "$line"
+    printf "%s\n" "$line"
 done < "$FILENAME"
 
 # Exit successfully

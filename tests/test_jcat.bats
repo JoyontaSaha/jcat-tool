@@ -24,15 +24,15 @@ teardown() {
 }
 
 @test "Single file" {
-  echo "Hello World!" > "$TEST_DIR/test_file.txt"
+  printf "Hello World!\n" > "$TEST_DIR/test_file.txt"
   run bin/jcat "$TEST_DIR/test_file.txt"
   [ "$status" -eq 0 ]
   [ "$output" = "Hello World!" ]
 }
 
 @test "Multiple files" {
-  echo "Hello" > "$TEST_DIR/test_file1.txt"
-  echo "World!" > "$TEST_DIR/test_file2.txt"
+  printf "Hello\n" > "$TEST_DIR/test_file1.txt"
+  printf "World!\n" > "$TEST_DIR/test_file2.txt"
   run bin/jcat "$TEST_DIR/test_file1.txt" "$TEST_DIR/test_file2.txt"
   [ "$status" -eq 0 ]
   [ "$output" = "Hello
@@ -40,7 +40,7 @@ World!" ]
 }
 
 @test "Standard input" {
-  run bash -c 'echo "Hello, World!" | bin/jcat -'
+  run bash -c 'printf "Hello, World!\n" | bin/jcat -'
   [ "$status" -eq 0 ]
   [ "$output" = "Hello, World!" ]
 }
@@ -53,7 +53,7 @@ Line 3"
      2	
      3	Line 3"
 
-  run bash -c "echo \"$input\" | bin/jcat -n"
+  run bash -c "printf \"$input\" | bin/jcat -n"
   [ "$status" -eq 0 ]
   [ "$output" = "$expected" ]
 }
@@ -66,7 +66,7 @@ Line 3"
        
      2	Line 3"
 
-  run bash -c "echo \"$input\" | bin/jcat -b"
+  run bash -c "printf \"$input\" | bin/jcat -b"
   [ "$status" -eq 0 ]
   [ "$output" = "$expected" ]
 }

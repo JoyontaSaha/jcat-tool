@@ -2,7 +2,7 @@
 
 # Create a temporary test file for valid and permission-denied tests
 setup() {
-    echo "Hello, World!" > testfile.txt
+    printf "Hello, World!\n" > testfile.txt
     touch permission_denied_file.txt
     chmod 000 permission_denied_file.txt  # Make it unreadable
 }
@@ -38,3 +38,4 @@ teardown() {
     [ "$status" -eq 1 ]
     [[ "$output" =~ Usage: ]]
 }
+

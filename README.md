@@ -1,4 +1,4 @@
-# jcat <small><small><small>[own version of the Unix Command line tool cat]</small></small></small>
+# jcat
 `jcat` is a simple command-line utility that concatenates files and prints the result to the standard output. It allows for various options such as line numbering and reading from standard input.
 
 *Special thanks to [Coding Challenges](https://codingchallenges.fyi/challenges/challenge-cat/).*

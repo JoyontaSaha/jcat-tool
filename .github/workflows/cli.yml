@@ -7,9 +7,37 @@ on:
     branches: [ master ]
 
 jobs:
-  test-and-validate:
-    name: Test and Validate JCAT Tool on Linux_Ubuntu
+  test-and-validate-linux:
+    name: Test and Validate JCAT Tool on Linux
     runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Install Bats
+      run: |
+        rm -rf tests/bats tests/test_helper/bats-support tests/test_helper/bats-assert
+        git clone https://github.com/bats-core/bats-core.git tests/bats
+        git clone https://github.com/bats-core/bats-support.git tests/test_helper/bats-support
+        git clone https://github.com/bats-core/bats-assert.git tests/test_helper/bats-assert
+
+    - name: Run Bash script tests
+      run: |
+        bash tests/run_tests.sh
+
+    - name: Check script syntax
+      run: |
+        find bin/ -type f -exec bash -n {} +
+        find bin/ lib/jcat/ -type f -name "*.sh" -exec bash -n {} +
+        bash -n install_jcat.sh
+        bash -n uninstall_jcat.sh
+        bash -n tests/run_tests.sh
+
+  test-and-validate-macos:
+    name: Test and Validate JCAT Tool on macOS
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3

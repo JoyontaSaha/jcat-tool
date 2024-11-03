@@ -3,8 +3,8 @@
 # Default directories
 BIN_DIR="/usr/bin"  # replace by user's OS bin dir path
 JCAT_DIR="jcat"
-LIB_DIR="/usr/lib/$JCAT_DIR"
-MAN_DIR="/usr/share/man/man1"
+LIB_DIR="/usr/lib/$JCAT_DIR" # replace by user's OS lib dir path
+MAN_DIR="/usr/share/man/man1"  # replace by user's OS man dir path
 
 # If a base directory is provided, override the default paths
 if [[ -n "$1" ]]; then
@@ -12,14 +12,11 @@ if [[ -n "$1" ]]; then
     BIN_DIR="$BASE_DIR/bin"
     LIB_DIR="$BASE_DIR/lib/$JCAT_DIR"
     MAN_DIR="$BASE_DIR/share/man/man1"
-    # MKDIR_LIB='mkdir -p'
-#else
-    # MKDIR_LIB='mkdir'
 fi
 
 # Function to display error messages and exit
 error_exit() {
-    echo "$1"
+    printf "%s\n" "$1"
     exit 1
 }
 
@@ -34,13 +31,13 @@ case "$choice" in
         if ! sudo cp "bin/jcat" "$BIN_DIR/"; then
             error_exit "Error: jcat not found or failed to copy."
         fi
-        echo "Copied jcat to $BIN_DIR/"
+        printf "Copied jcat to %s/\n" "$BIN_DIR"
 
         # Check file permissions before changing
-        echo "Before chmod: $(ls -l "$BIN_DIR/jcat")"
+        printf "Before chmod: %s\n" "$(ls -l "$BIN_DIR/jcat")"
 
         sudo chmod +x "$BIN_DIR/jcat"
-        echo "Set executable permission for $BIN_DIR/jcat"
+        printf "Set executable permission for %s\n" "$BIN_DIR/jcat"
         
         # Step 1: Ensure the library directory exists
         sudo mkdir -p "$LIB_DIR" || error_exit "Failed to create $LIB_DIR"
@@ -50,16 +47,16 @@ case "$choice" in
             if ! sudo cp "$file" "$LIB_DIR/"; then
                 error_exit "Error: $file not found or failed to copy."
             fi
-            echo "Copied $file to $LIB_DIR/"
-
+            printf "Copied %s to %s/\n" "$file" "$LIB_DIR"
+            
             # Check file permissions before changing
-            echo "Before chmod: $(ls -l "$LIB_DIR/$(basename "$file")")"
+            printf "Before chmod: %s\n" "$(ls -l "$LIB_DIR/$(basename "$file")")"
 
             sudo chmod +x "$LIB_DIR/$(basename "$file")"
-            echo "Set executable permission for $LIB_DIR/$(basename "$file")"
+            printf "Set executable permission for %s\n" "$LIB_DIR/$(basename "$file")"
 
             # Check file permissions after changing
-            echo "After chmod: $(ls -l "$LIB_DIR/$(basename "$file")")"
+            printf "After chmod: %s\n" "$(ls -l "$LIB_DIR/$(basename "$file")")"
         done
 
         # Step 6: Copy jcat.1 to the man directory
@@ -71,19 +68,20 @@ case "$choice" in
         if [ -f "$MAN_DIR/jcat.1" ]; then
             sudo mandb
         else
-            echo "Man page not found; skipping mandb update."
+            printf "Man page not found; skipping mandb update.\n"
         fi
 
-        echo "Installation complete."
+        printf "Installation complete.\n"
         ;;
     "n")
-        echo "Installation aborted."
+        printf "Installation aborted.\n"
         ;;
     *)
-        echo "Invalid input. Please enter 'y' or 'n'."
+        printf "Invalid input. Please enter 'y' or 'n'.\n"
         exit 1
         ;;
 esac
 
 # Exit successfully
 exit 0
+

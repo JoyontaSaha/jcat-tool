@@ -40,7 +40,7 @@ teardown() {
     chmod +x "$TEST_DIR/bin/jcat"  # Set the mock executable permission
 
     # Check if the jcat executable is now executable
-    echo "Checking permissions for $TEST_DIR/bin/jcat"
+    printf "Checking permissions for %s\n" "$TEST_DIR/bin/jcat"
     ls -l "$TEST_DIR/bin/jcat"  # Add this line to check permissions in the test
 
     [[ -x "$TEST_DIR/bin/jcat" ]]   # Check if jcat is executable
@@ -62,3 +62,4 @@ teardown() {
     # Check if the output confirms invalid input
     [[ "$output" == *"Invalid input. Please enter 'y' or 'n'."* ]]
 }
+

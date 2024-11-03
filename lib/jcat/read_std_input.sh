@@ -2,11 +2,15 @@
 
 # Function to display usage information
 display_usage() {
-    echo "Usage: $0 [ - | -n | -b ]"
-    echo "Provide a dash (-) to read from standard input."
-    echo "Provide -n to add line numbering to all lines including blank lines."
-    echo "Provide -b to add line numbering to non-blank lines only."
+  usage_message="Usage: $0 [ - | -n | -b ]
+Provide a dash (-) to read from standard input.
+Provide -n to add line numbering to all lines including blank lines.
+Provide -b to add line numbering to non-blank lines only."
+
+  # Print the usage message
+  printf "%s\n" "$usage_message"
 }
+
 
 # Check if at least one argument is provided
 if [[ $# -eq 0 ]]; then

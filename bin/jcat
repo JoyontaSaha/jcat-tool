@@ -2,11 +2,10 @@
 #
 # jcat - A concatenate and print files utility
 # 
-# Author: [Your Name]
+# Author: [Joyonta Saha]
 # Version: 1.0.0
 #
-# Copyright 2024 [Your Organization]
-# Licensed under the Apache License, Version 2.0
+# Copyright 2024
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -20,8 +19,7 @@ readonly LIB_DIR="${SCRIPT_DIR}/../lib/jcat"
 
 # Print help message
 print_help() {
-  cat <<EOF
-jcat - concatenate and print files
+  help_message="jcat - concatenate and print files
 
 Usage: jcat [OPTION]... [FILE]...
    or: jcat [OPTION] -
@@ -41,18 +39,21 @@ Examples:
   jcat -n        Number all output lines from stdin
   jcat -b        Number non-blank output lines from stdin
 
-Report bugs to: [Joyontasaha95@gmail.com]
-EOF
+Report bugs to: [Joyontasaha95@gmail.com]"
+
+  # Print the help message
+  printf "%s\n" "$help_message"
 }
+
 
 # Print version information
 print_version() {
-  echo "jcat version ${VERSION}"
+  printf "jcat version %s\n" "${VERSION}"
 }
 
 # Print error message to stderr
 error() {
-  echo "jcat::Error: $*" >&2
+  printf "jcat::Error: %s\n" "$*" >&2
 }
 
 # Main function

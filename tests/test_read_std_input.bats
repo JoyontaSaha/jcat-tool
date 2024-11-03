@@ -24,7 +24,7 @@ Line 3"
      2	
      3	Line 3"
 
-  run bash -c "echo \"$input\" | lib/jcat/read_std_input.sh -n"
+  run bash -c "printf \"$input\" | lib/jcat/read_std_input.sh -n"
   [ "$status" -eq 0 ]
   [ "$output" = "$expected" ]
 }
@@ -38,7 +38,7 @@ Line 3"
        
      2	Line 3"
 
-  run bash -c "echo \"$input\" | lib/jcat/read_std_input.sh -b"
+  run bash -c "printf \"$input\" | lib/jcat/read_std_input.sh -b"
   [ "$status" -eq 0 ]
   [ "$output" = "$expected" ]
 }
@@ -49,3 +49,4 @@ Line 3"
     [ "$status" -eq 1 ]
     [[ "$output" == *"Usage: "* ]]
 }
+

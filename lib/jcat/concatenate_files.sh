@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# jcat - A simple file concatenation tool
-
 # Check if at least one file argument is provided
 if [ $# -eq 0 ]; then
-  echo "Usage: $0 <file1> [<file2> ...]"
+  printf "Usage: %s <file1> [<file2> ...]\n" "$0"
   exit 1
 fi
 
@@ -15,7 +13,7 @@ valid_file_found=false
 handle_error() {
   local file="$1"
   local message="$2"
-  echo "jcat::Error: $message"
+  printf "jcat::Error: %s\n" "$message"
 }
 
 # Iterate over the file arguments
@@ -33,12 +31,16 @@ for file in "$@"; do
 
   # If the file is valid, set the flag to true and concatenate its contents
   valid_file_found=true
-  cat "$file"  # Concatenate the file contents to stdout
+  # Use IFS to split the file contents into an array and then
+  # loop through the array to print each line
+  while IFS= read -r line; do
+    printf "%s\n" "$line"
+  done < "$file"
 done
 
 # Optional: Exit with status 1 if no valid files were found
 if ! $valid_file_found; then
-  echo "jcat::Error: No valid files were provided."
+  printf "jcat::Error: No valid files were provided.\n"
   exit 1
 fi
 
