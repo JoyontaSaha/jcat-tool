@@ -5,6 +5,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   test-and-validate-linux:
@@ -62,3 +63,16 @@ jobs:
         bash -n install_jcat.sh
         bash -n uninstall_jcat.sh
         bash -n tests/run_tests.sh
+
+  check-pull-request:
+    name: Check Pull Request Status
+    runs-on: ubuntu-latest
+    needs: [test-and-validate-linux, test-and-validate-macos]
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - name: Check if all tests passed
+        run: |
+          if [[ "${{ job.status }}" != "success" ]]; then
+            echo "Not all tests passed. Pull request cannot be merged."
+            exit 1
+          fi
