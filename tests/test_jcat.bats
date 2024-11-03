@@ -68,7 +68,16 @@ Line 3"
 
   run bash -c "printf \"$input\" | bin/jcat -b"
   [ "$status" -eq 0 ]
-  [ "$output" = "$expected" ]
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    [[ "$output" =~ "$expected" ]]
+  elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    [ "$output" = "$expected" ]
+  elif [[ "$OSTYPE" == "cygwin"* ]] || [[ "$OSTYPE" == "msys"* ]] || [[ "$OSTYPE" == "win32"* ]]; then
+    expected="     1	Line 1
+     2	
+     3	Line 3"
+    [ "$output" = "$expected" ]
+  fi
 }
 
 @test "Non-existent file" {

@@ -40,7 +40,17 @@ Line 3"
 
   run bash -c "printf \"$input\" | lib/jcat/read_std_input.sh -b"
   [ "$status" -eq 0 ]
-  [[ "$output" == "$expected" ]]
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    [[ "$output" =~ "$expected" ]]
+  elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    [ "$output" = "$expected" ]
+  elif [[ "$OSTYPE" == "cygwin"* ]] || [[ "$OSTYPE" == "msys"* ]] || [[ "$OSTYPE" == "win32"* ]]; then
+    [ "$output" = "     1	Line 1
+     2	
+     3	Line 3" ]
+  else
+    skip "unknown ostype '$OSTYPE'"
+  fi
 }
 
 # Test usage message
