@@ -19,6 +19,7 @@ jobs:
 
     - name: Install Bats
       run: |
+        set -e
         rm -rf tests/bats tests/test_helper/bats-support tests/test_helper/bats-assert
         git clone https://github.com/bats-core/bats-core.git tests/bats
         git clone https://github.com/bats-core/bats-support.git tests/test_helper/bats-support
@@ -26,10 +27,12 @@ jobs:
 
     - name: Run Bash script tests
       run: |
+        set -e
         bash tests/run_tests.sh
 
     - name: Check script syntax
       run: |
+        set -e
         find bin/ -type f -exec bash -n {} +
         find bin/ lib/jcat/ -type f -name "*.sh" -exec bash -n {} +
         bash -n install_jcat.sh
@@ -47,6 +50,7 @@ jobs:
 
     - name: Install Bats
       run: |
+        set -e
         rm -rf tests/bats tests/test_helper/bats-support tests/test_helper/bats-assert
         git clone https://github.com/bats-core/bats-core.git tests/bats
         git clone https://github.com/bats-core/bats-support.git tests/test_helper/bats-support
@@ -54,10 +58,12 @@ jobs:
 
     - name: Run Bash script tests
       run: |
+        set -e
         bash tests/run_tests.sh
 
     - name: Check script syntax
       run: |
+        set -e
         find bin/ -type f -exec bash -n {} +
         find bin/ lib/jcat/ -type f -name "*.sh" -exec bash -n {} +
         bash -n install_jcat.sh
@@ -70,9 +76,12 @@ jobs:
     needs: [test-and-validate-linux, test-and-validate-macos]
     if: ${{ github.event_name == 'pull_request' }}
     steps:
-      - name: Check if all tests passed
+      - name: Ensure all tests passed
         run: |
-          if [[ "${{ job.status }}" != "success" ]]; then
+          set -e
+          if [[ "${{ needs.test-and-validate-linux.result }}" != "success" || "${{ needs.test-and-validate-macos.result }}" != "success" ]]; then
             echo "Not all tests passed. Pull request cannot be merged."
             exit 1
+          else
+            echo "All tests passed. Pull request can be merged."
           fi
